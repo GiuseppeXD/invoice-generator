@@ -328,6 +328,18 @@
                 <div id="fileName" style="margin-top: 15px; font-weight: 600;"></div>
             </div>
             
+            <!-- Config Import Section -->
+            <div class="upload-section" style="margin-top: 20px;">
+                <div class="upload-icon">⚙️</div>
+                <h2>Importar Configurações JSON (Opcional)</h2>
+                <p>Importe um arquivo JSON com as configurações da fatura</p>
+                <input type="file" id="configFile" class="file-input" accept=".json">
+                <button class="upload-button" onclick="document.getElementById('configFile').click()">
+                    Selecionar Arquivo de Configuração
+                </button>
+                <div id="configFileName" style="margin-top: 15px; font-weight: 600;"></div>
+            </div>
+            
             <!-- Settings Section -->
             <div class="settings-section">
                 <h2 style="margin-bottom: 20px; color: #333;">⚙️ Configurações da Fatura</h2>
@@ -371,6 +383,18 @@
                     <div class="setting-group">
                         <label for="developmentEndDate">Data de desenvolvimento (fim):</label>
                         <input type="date" id="developmentEndDate" value="">
+                    </div>
+                    <div class="setting-group">
+                        <label for="billingCompanyName">Empresa para Cobrança:</label>
+                        <input type="text" id="billingCompanyName" placeholder="Oxeanbits Digital Solutions LTDA" value="Oxeanbits Digital Solutions LTDA">
+                    </div>
+                    <div class="setting-group">
+                        <label for="billingCompanyCNPJ">CNPJ para Cobrança:</label>
+                        <input type="text" id="billingCompanyCNPJ" placeholder="23.154.739/0001-53" value="23.154.739/0001-53">
+                    </div>
+                    <div class="setting-group">
+                        <label for="billingCompanyAddress">Endereço para Cobrança:</label>
+                        <input type="text" id="billingCompanyAddress" placeholder="Alameda Salvador, Nº 1057, Torre América, Salvador Shopping Business" value="Alameda Salvador, Nº 1057, Torre América, Salvador Shopping Business">
                     </div>
                 </div>
             </div>
@@ -455,6 +479,28 @@
                         showStatus(`❌ Erro ao processar o arquivo CSV: ${error.message}`, 'error');
                         csvData = [];
                         document.getElementById('generateBtn').disabled = true;
+                    }
+                };
+                reader.readAsText(file);
+            }
+        });
+        
+        // Config file upload handling
+        document.getElementById('configFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('configFileName').textContent = `✅ Configuração selecionada: ${file.name}`;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const configText = e.target.result;
+                        const config = JSON.parse(configText);
+                        loadConfiguration(config);
+                        showStatus(`✅ Configurações carregadas com sucesso!`, 'success');
+                    } catch (error) {
+                        console.error('Error parsing config JSON:', error);
+                        showStatus(`❌ Erro ao processar o arquivo de configuração: ${error.message}`, 'error');
                     }
                 };
                 reader.readAsText(file);
@@ -639,14 +685,14 @@
                     <td class="invoice-header">${getMonthYear()}</td>
                 </tr>
                 <tr>
-                    <td class="invoice-client" colspan="3">Cobrança para: Oxeanbits Digital Solutions LTDA</td>
+                    <td class="invoice-client" colspan="3">Cobrança para: ${document.getElementById('billingCompanyName').value}</td>
                     <td class="invoice-client">Data de desenvolvimento: ${getDevelopmentDateRange()}</td>
                 </tr>
                 <tr>
-                    <td class="invoice-client" colspan="4">CNPJ: 23.154.739/0001-53</td>
+                    <td class="invoice-client" colspan="4">CNPJ: ${document.getElementById('billingCompanyCNPJ').value}</td>
                 </tr>
                 <tr>
-                    <td class="invoice-client" colspan="4">Endereço: Alameda Salvador, Nº 1057, Torre América, Salvador Shopping Business</td>
+                    <td class="invoice-client" colspan="4">Endereço: ${document.getElementById('billingCompanyAddress').value}</td>
                 </tr>
                 <tr>
                     <td class="invoice-task-header">Task</td>
@@ -738,6 +784,19 @@
             } else {
                 return new Date().toLocaleDateString('pt-BR', {month: 'long', year: 'numeric'});
             }
+        }
+        
+        function loadConfiguration(config) {
+            // Your company information
+            if (config.companyName) document.getElementById('companyName').value = config.companyName;
+            if (config.companyCNPJ) document.getElementById('companyCNPJ').value = config.companyCNPJ;
+            if (config.companyAddress) document.getElementById('companyAddress').value = config.companyAddress;
+            if (config.hourlyRate) document.getElementById('hourlyRate').value = config.hourlyRate;
+            
+            // Billing company information
+            if (config.billingCompanyName) document.getElementById('billingCompanyName').value = config.billingCompanyName;
+            if (config.billingCompanyCNPJ) document.getElementById('billingCompanyCNPJ').value = config.billingCompanyCNPJ;
+            if (config.billingCompanyAddress) document.getElementById('billingCompanyAddress').value = config.billingCompanyAddress;
         }
         
         function showStatus(message, type) {
