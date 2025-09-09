@@ -306,6 +306,78 @@
                 grid-template-columns: 1fr;
             }
         }
+        
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            
+            .invoice-preview, .invoice-preview * {
+                visibility: visible;
+            }
+            
+            .invoice-preview {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            .invoice-table {
+                width: 100% !important;
+                font-size: 12px !important;
+                page-break-inside: avoid;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            
+            .invoice-table th,
+            .invoice-table td {
+                border: 1px solid #000 !important;
+                padding: 8px !important;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            
+            .invoice-header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                color: white !important;
+                font-weight: 600 !important;
+            }
+            
+            .invoice-client {
+                background: #f8f9fa !important;
+            }
+            
+            .invoice-task-header {
+                background: #e9ecef !important;
+                font-weight: 600 !important;
+                text-align: center !important;
+            }
+            
+            .invoice-task {
+                background: white !important;
+            }
+            
+            .invoice-total {
+                background: #fff3cd !important;
+                font-weight: 600 !important;
+            }
+            
+            .invoice-final {
+                background: #ffd700 !important;
+                font-weight: 700 !important;
+            }
+            
+            .download-section {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -827,7 +899,23 @@
         }
         
         function printInvoice() {
+            // Ensure the invoice is visible before printing
+            const resultsSection = document.getElementById('resultsSection');
+            if (resultsSection.style.display === 'none') {
+                showStatus('❌ Gere a fatura primeiro antes de imprimir.', 'error');
+                return;
+            }
+            
+            // Add print class to body for additional control if needed
+            document.body.classList.add('printing');
+            
+            // Print the page
             window.print();
+            
+            // Remove print class after printing
+            setTimeout(() => {
+                document.body.classList.remove('printing');
+            }, 1000);
         }
         
         // Auto-fill invoice number, period date, and development date range
