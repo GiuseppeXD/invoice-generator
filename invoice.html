@@ -308,19 +308,20 @@
         }
         
         @media print {
-            body * {
-                visibility: hidden;
+            body {
+                margin: 0;
+                padding: 0;
             }
             
-            .invoice-preview, .invoice-preview * {
-                visibility: visible;
+            .container {
+                display: none;
             }
             
             .invoice-preview {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
+                display: block !important;
+                visibility: visible !important;
+                position: relative !important;
+                width: 100% !important;
                 background: white !important;
                 box-shadow: none !important;
                 border-radius: 0 !important;
@@ -906,16 +907,41 @@
                 return;
             }
             
-            // Add print class to body for additional control if needed
-            document.body.classList.add('printing');
+            // Create a new window for printing
+            const printWindow = window.open('', '_blank');
+            const invoiceTable = document.getElementById('invoiceTable').outerHTML;
             
-            // Print the page
-            window.print();
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Fatura</title>
+                    <style>
+                        @media print {
+                            * { -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
+                        }
+                        body { margin: 20px; font-family: Arial, sans-serif; }
+                        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+                        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+                        .invoice-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: 600; }
+                        .invoice-client { background: #f8f9fa; }
+                        .invoice-task-header { background: #e9ecef; font-weight: 600; text-align: center; }
+                        .invoice-task { background: white; }
+                        .invoice-total { background: #fff3cd; font-weight: 600; }
+                        .invoice-final { background: #ffd700; font-weight: 700; }
+                    </style>
+                </head>
+                <body>
+                    ${invoiceTable}
+                </body>
+                </html>
+            `);
             
-            // Remove print class after printing
-            setTimeout(() => {
-                document.body.classList.remove('printing');
-            }, 1000);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
         }
         
         // Auto-fill invoice number, period date, and development date range
