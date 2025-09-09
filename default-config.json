@@ -3,6 +3,7 @@
   "companyCNPJ": "00.000.000/0001-00",
   "companyAddress": "Seu endereço completo",
   "hourlyRate": 50,
+  "pix": "00.000.000/0001-00",
   "billingCompanyName": "Nome da Empresa Cliente",
   "billingCompanyCNPJ": "00.000.000/0001-00",
   "billingCompanyAddress": "Endereço da empresa cliente"

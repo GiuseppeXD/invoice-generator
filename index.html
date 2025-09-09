@@ -439,6 +439,10 @@
                         <label for="hourlyRate">Taxa por Hora (R$):</label>
                         <input type="number" id="hourlyRate" value="" step="0.01">
                     </div>
+                    <div class="setting-group">
+                        <label for="pix">Pix:</label>
+                        <input type="text" id="pix" value="">
+                    </div>
                 </div>
                 
                 <!-- Dados do Cliente Section -->
@@ -774,7 +778,7 @@
                 </tr>
                 <tr>
                     <td class="invoice-header" colspan="3">Endereço: ${companyAddress}</td>
-                    <td class="invoice-header">${getMonthYear()}</td>
+                    <td class="invoice-header">Pix: ${document.getElementById('pix').value || '[Pix não informado]'}</td>
                 </tr>
                 <tr>
                     <td class="invoice-client" colspan="3">Cobrança para: ${document.getElementById('billingCompanyName').value}</td>
@@ -884,6 +888,7 @@
             if (config.companyCNPJ) document.getElementById('companyCNPJ').value = config.companyCNPJ;
             if (config.companyAddress) document.getElementById('companyAddress').value = config.companyAddress;
             if (config.hourlyRate) document.getElementById('hourlyRate').value = config.hourlyRate;
+            if (config.pix) document.getElementById('pix').value = config.pix;
             
             // Billing company information
             if (config.billingCompanyName) document.getElementById('billingCompanyName').value = config.billingCompanyName;
