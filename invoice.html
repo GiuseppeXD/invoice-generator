@@ -419,31 +419,31 @@
                 <div class="settings-grid">
                     <div class="setting-group">
                         <label for="companyName">Nome da Empresa:</label>
-                        <input type="text" id="companyName" placeholder="Sua Empresa LTDA" value="">
+                        <input type="text" id="companyName" value="">
                     </div>
                     <div class="setting-group">
                         <label for="companyCNPJ">CNPJ:</label>
-                        <input type="text" id="companyCNPJ" placeholder="00.000.000/0001-00" value="">
+                        <input type="text" id="companyCNPJ" value="">
                     </div>
                     <div class="setting-group">
                         <label for="companyAddress">Endereço:</label>
-                        <input type="text" id="companyAddress" placeholder="Seu endereço completo" value="">
+                        <input type="text" id="companyAddress" value="">
                     </div>
                     <div class="setting-group">
                         <label for="hourlyRate">Taxa por Hora (R$):</label>
-                        <input type="number" id="hourlyRate" placeholder="52" value="52" step="0.01">
+                        <input type="number" id="hourlyRate" value="" step="0.01">
                     </div>
                     <div class="setting-group">
                         <label for="invoiceNumber">Número da Fatura:</label>
-                        <input type="text" id="invoiceNumber" placeholder="001/2025" value="">
+                        <input type="text" id="invoiceNumber" value="">
                     </div>
                     <div class="setting-group">
                         <label for="bankHours">Banco de Horas :</label>
-                        <input type="number" id="bankHours" placeholder="0" value="0" step="0.1">
+                        <input type="number" id="bankHours" value="0" step="0.1">
                     </div>
                     <div class="setting-group">
                         <label for="bankHoursHistory">Banco de Horas Histórico:</label>
-                        <input type="number" id="bankHoursHistory" placeholder="0" value="0" step="0.1">
+                        <input type="number" id="bankHoursHistory" value="0" step="0.1">
                     </div>
                     <div class="setting-group">
                         <label for="invoicePeriod">Período:</label>
@@ -459,15 +459,15 @@
                     </div>
                     <div class="setting-group">
                         <label for="billingCompanyName">Empresa para Cobrança:</label>
-                        <input type="text" id="billingCompanyName" placeholder="Oxeanbits Digital Solutions LTDA" value="Oxeanbits Digital Solutions LTDA">
+                        <input type="text" id="billingCompanyName" value="">
                     </div>
                     <div class="setting-group">
                         <label for="billingCompanyCNPJ">CNPJ para Cobrança:</label>
-                        <input type="text" id="billingCompanyCNPJ" placeholder="23.154.739/0001-53" value="23.154.739/0001-53">
+                        <input type="text" id="billingCompanyCNPJ" value="">
                     </div>
                     <div class="setting-group">
                         <label for="billingCompanyAddress">Endereço para Cobrança:</label>
-                        <input type="text" id="billingCompanyAddress" placeholder="Alameda Salvador, Nº 1057, Torre América, Salvador Shopping Business" value="Alameda Salvador, Nº 1057, Torre América, Salvador Shopping Business">
+                        <input type="text" id="billingCompanyAddress" value="">
                     </div>
                 </div>
             </div>
@@ -730,7 +730,7 @@
             const companyCNPJ = document.getElementById('companyCNPJ').value || '[Seu CNPJ]';
             const companyAddress = document.getElementById('companyAddress').value || '[Seu Endereço]';
             const invoiceNumber = document.getElementById('invoiceNumber').value || '001/2025';
-            const hourlyRate = parseFloat(document.getElementById('hourlyRate').value) || 52;
+            const hourlyRate = parseFloat(document.getElementById('hourlyRate').value) || 50;
             const bankHours = parseFloat(document.getElementById('bankHours').value) || 0; // Hours to subtract
             const bankHoursHistory = parseFloat(document.getElementById('bankHoursHistory').value) || 0; // Historical hours to display
             
